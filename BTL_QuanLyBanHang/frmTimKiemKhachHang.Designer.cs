@@ -179,6 +179,8 @@ namespace BTL_QuanLyBanHang
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Name = "frmTimKiemKhach";
+            this.ShowInTaskbar = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "TimKiemKhachHang";
             this.Load += new System.EventHandler(this.frmTimKiemKhach_Load);
             this.panel1.ResumeLayout(false);

@@ -345,6 +345,7 @@ namespace BTL_QuanLyBanHang
             this.dgrHoaDonBanHang.Name = "dgrHoaDonBanHang";
             this.dgrHoaDonBanHang.Size = new System.Drawing.Size(794, 189);
             this.dgrHoaDonBanHang.TabIndex = 3;
+            this.dgrHoaDonBanHang.DoubleClick += new System.EventHandler(this.dgrHoaDonBanHang_DoubleClick);
             // 
             // panel6
             // 
@@ -545,6 +546,7 @@ namespace BTL_QuanLyBanHang
             this.btnXoaHD.TabIndex = 0;
             this.btnXoaHD.Text = "Hủy hóa đơn";
             this.btnXoaHD.UseVisualStyleBackColor = true;
+            this.btnXoaHD.Click += new System.EventHandler(this.btnXoaHD_Click);
             // 
             // btnLuuHD
             // 
@@ -575,6 +577,8 @@ namespace BTL_QuanLyBanHang
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Name = "frmHoaDonBan";
+            this.ShowInTaskbar = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Hóa Đơn Bán ";
             this.Load += new System.EventHandler(this.frmHoaDonBan_Load);
             this.panel1.ResumeLayout(false);
@@ -616,7 +620,6 @@ namespace BTL_QuanLyBanHang
         private System.Windows.Forms.TextBox txtTenNV;
         private System.Windows.Forms.ComboBox cboMaNV;
         private System.Windows.Forms.DateTimePicker dtpNgayBan;
-        private System.Windows.Forms.TextBox txtMaHDBan;
         private System.Windows.Forms.TextBox txtDiaChi;
         private System.Windows.Forms.TextBox txtTenKH;
         private System.Windows.Forms.MaskedTextBox mtbDienThoaiKh;
@@ -646,5 +649,6 @@ namespace BTL_QuanLyBanHang
         private System.Windows.Forms.Button btnInHD;
         private System.Windows.Forms.Button btnDong;
         private System.Windows.Forms.ComboBox cboMaKhach;
+        public System.Windows.Forms.TextBox txtMaHDBan;
     }
 }

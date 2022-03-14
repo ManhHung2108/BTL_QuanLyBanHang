@@ -241,6 +241,8 @@ namespace BTL_QuanLyBanHang
             this.Controls.Add(this.panel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmDanhMucKhachHang";
+            this.ShowInTaskbar = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Danh mục khách hàng";
             this.Load += new System.EventHandler(this.frmDanhMucKhachHang_Load);
             this.panel1.ResumeLayout(false);

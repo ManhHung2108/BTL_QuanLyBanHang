@@ -124,13 +124,7 @@ namespace BTL_QuanLyBanHang
             string sql;
             double sl, SLcon, tong, Tongmoi;
             sql = "SELECT sMaHDBan FROM tblHoaDonBan WHERE sMaHDBan=N'" + txtMaHDBan.Text + "'";
-            if (Functions.CheckKey(sql))
-            {
-                MessageBox.Show("Mã hóa đơn đã tồn tại!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                txtMaHDBan.Focus();
-                return;
-            }
-            else 
+            if (!Functions.CheckKey(sql))
             {
                 // Mã hóa đơn chưa có, tiến hành lưu các thông tin chung
                 if (cboMaNV.Text.Length == 0)
@@ -384,6 +378,151 @@ namespace BTL_QuanLyBanHang
         {
             Functions.FillComBoBox("SELECT sMaHDBan FROM tblHoaDonBan", cboMaHD, "sMaHDBan", "sMaHDBan");
             cboMaHD.SelectedIndex = -1;
+        }
+
+        private void dgrHoaDonBanHang_DoubleClick(object sender, EventArgs e)
+        {
+            string MaHangxoa, sql;
+            Double ThanhTienxoa, SoLuongxoa, sl, slcon,  tong, tongmoi;
+
+            if (tblCTHDB.Rows.Count == 0)
+            {
+                MessageBox.Show("Không có dữ liệu!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            if ((MessageBox.Show("Bạn có chắc chắn muốn xóa không?", "Thông báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes))
+            {
+                //Xóa hàng và cập nhật lại số lượng hàng 
+                MaHangxoa = dgrHoaDonBanHang.CurrentRow.Cells["sMaHang"].Value.ToString();
+                SoLuongxoa = Convert.ToDouble(dgrHoaDonBanHang.CurrentRow.Cells["iSoLuong"].Value.ToString());
+                ThanhTienxoa = Convert.ToDouble(dgrHoaDonBanHang.CurrentRow.Cells["fThanhTien"].Value.ToString());
+
+                string constr = ConfigurationManager.ConnectionStrings["btl_qlbh"].ConnectionString;
+                using (SqlConnection cnn = new SqlConnection(constr))
+                {
+                    using (SqlCommand cmd = cnn.CreateCommand())
+                    {
+                        cmd.Connection = cnn;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandText = "sp_tblChiTietHoaDonBan_Delete";
+                        cmd.Parameters.AddWithValue("@sMaHDBan", txtMaHDBan.Text);
+                        cmd.Parameters.AddWithValue("@sMaHang", MaHangxoa);
+                        cnn.Open();
+                        cmd.ExecuteNonQuery();
+                        cnn.Close();
+                    }
+                }
+                // Cập nhật lại số lượng cho các mặt hàng
+                sl = Convert.ToDouble(Functions.GetFieldValues("SELECT iSoLuong FROM tblHang WHERE sMaHang = N'" + MaHangxoa + "'"));
+                slcon = sl + SoLuongxoa;
+                using (SqlConnection cnn = new SqlConnection(constr))
+                {
+                    using (SqlCommand cmd = cnn.CreateCommand())
+                    {
+                        cmd.Connection = cnn;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandText = "sp_tblHang_Update_SoLuong";
+                        cmd.Parameters.AddWithValue("@sMaHang", MaHangxoa);
+                        cmd.Parameters.AddWithValue("@iSoLuong", slcon);
+
+                        cnn.Open();
+                        cmd.ExecuteNonQuery();
+                        cnn.Close();
+                    }
+                }
+                // Cập nhật lại tổng tiền cho hóa đơn bán
+                tong = Convert.ToDouble(Functions.GetFieldValues("SELECT fTongTien FROM tblHoaDonBan WHERE sMaHDBan = N'" + txtMaHDBan.Text + "'"));
+                tongmoi = tong - ThanhTienxoa;
+                using (SqlConnection cnn = new SqlConnection(constr))
+                {
+                    using (SqlCommand cmd = cnn.CreateCommand())
+                    {
+                        cmd.Connection = cnn;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandText = "sp_tblHoaDonBan_Update_TongTien";
+                        cmd.Parameters.AddWithValue("@sMaHDBan", txtMaHDBan.Text);
+                        cmd.Parameters.AddWithValue("@fTongTien", tongmoi);
+
+                        cnn.Open();
+                        cmd.ExecuteNonQuery();
+                        cnn.Close();
+                    }
+                }
+                txtTongTien.Text = tongmoi.ToString();
+               
+                LoadDataGridView();
+            }
+        }
+        private void btnXoaHD_Click(object sender, EventArgs e)
+        {
+            string constr = ConfigurationManager.ConnectionStrings["btl_qlbh"].ConnectionString;
+            double sl, slcon, slxoa;
+            if (MessageBox.Show("Bạn có chắc chắn muốn xóa không?", "Thông báo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                string sql = "SELECT sMaHang,iSoLuong FROM tblChiTietHoaDonBan WHERE sMaHDBan = N'" + txtMaHDBan.Text + "'";
+                DataTable tblHang = Functions.GetDataTable(sql);
+                for (int hang = 0; hang <= tblHang.Rows.Count - 1; hang++)
+                {
+                    // Cập nhật lại số lượng cho các mặt hàng
+                    sl = Convert.ToDouble(Functions.GetFieldValues("SELECT iSoLuong FROM tblHang WHERE sMaHang = N'" + tblHang.Rows[hang][0].ToString() + "'"));
+                    slxoa = Convert.ToDouble(tblHang.Rows[hang][1].ToString());
+                    slcon = sl + slxoa;
+                    
+                    using (SqlConnection cnn = new SqlConnection(constr))
+                    {
+                        using (SqlCommand cmd = cnn.CreateCommand())
+                        {
+                            cmd.Connection = cnn;
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            cmd.CommandText = "sp_tblHang_Update_SoLuong";
+                            cmd.Parameters.AddWithValue("@sMaHang", tblHang.Rows[hang][0].ToString());
+                            cmd.Parameters.AddWithValue("@iSoLuong", slcon);
+
+                            cnn.Open();
+                            cmd.ExecuteNonQuery();
+                            cnn.Close();
+                        }
+                    }
+
+                }
+
+                //Xóa chi tiết hóa đơn
+                using (SqlConnection cnn = new SqlConnection(constr))
+                {
+                    using (SqlCommand cmd = cnn.CreateCommand())
+                    {
+                        cmd.Connection = cnn;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandText = "sp_tblChiTietHoaDonBan_Delete2";
+                        cmd.Parameters.AddWithValue("@sMaHDBan", txtMaHDBan.Text);
+                       
+                        cnn.Open();
+                        cmd.ExecuteNonQuery();
+                        cnn.Close();
+                    }
+                }
+
+                //Xóa hóa đơn
+                using (SqlConnection cnn = new SqlConnection(constr))
+                {
+                    using (SqlCommand cmd = cnn.CreateCommand())
+                    {
+                        cmd.Connection = cnn;
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandText = "sp_tblHoaDonBan_Delete";
+                        cmd.Parameters.AddWithValue("@sMaHDBan", txtMaHDBan.Text);
+
+                        cnn.Open();
+                        cmd.ExecuteNonQuery();
+                        cnn.Close();
+                    }
+                }
+
+                ResetValues();
+                LoadDataGridView();
+                btnXoaHD.Enabled = false;
+                btnInHD.Enabled = false;
+            }
         }
     }
 }

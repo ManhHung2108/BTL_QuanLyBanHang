@@ -80,14 +80,14 @@ namespace BTL_QuanLyBanHang
             crvHangTon.ReportSource = report;
             crvHangTon.Refresh();
 
-            ParameterFieldDefinition rpd1 = report.DataDefinition.ParameterFields["Nguoilap"];
-            report.RecordSelectionFormula = "{?NguoiLap}";
-            ParameterDiscreteValue pdv1 = new ParameterDiscreteValue();
-            pdv1.Value = txtTenHang.Text;
-            ParameterValues pv1 = new ParameterValues();
-            pv1.Add(pdv);
-            rpd1.CurrentValues.Clear();
-            rpd1.ApplyCurrentValues(pv1);
+            //ParameterFieldDefinition rpd1 = report.DataDefinition.ParameterFields["Nguoilap"];
+            //report.RecordSelectionFormula = "{?NguoiLap}";
+            //ParameterDiscreteValue pdv1 = new ParameterDiscreteValue();
+            //pdv1.Value = txtTenHang.Text;
+            //ParameterValues pv1 = new ParameterValues();
+            //pv1.Add(pdv);
+            //rpd1.CurrentValues.Clear();
+            //rpd1.ApplyCurrentValues(pv1);
             
         }
     }

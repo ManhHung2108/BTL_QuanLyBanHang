@@ -63,6 +63,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>dsBaoCaoHangTon.xsd</DependentUpon>
     </Compile>
+    <Compile Include="frmTimKiemHoaDon.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmTimKiemHoaDon.Designer.cs">
+      <DependentUpon>frmTimKiemHoaDon.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmBaoCaoHangTon.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -139,6 +145,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmTimKiemHoaDon.resx">
+      <DependentUpon>frmTimKiemHoaDon.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

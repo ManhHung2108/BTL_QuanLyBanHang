@@ -199,6 +199,7 @@ namespace BTL_QuanLyBanHang
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Name = "frmDanhMucChatLieu";
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Danh mục chất Llệu";
             this.Load += new System.EventHandler(this.frmDanhMucChatLieu_Load);

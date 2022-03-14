@@ -89,5 +89,12 @@ namespace BTL_QuanLyBanHang
             frmBCHT.MdiParent = this;
             frmBCHT.Show();
         }
+
+        private void mnuTimKiemHoaDon_Click(object sender, EventArgs e)
+        {
+            frmTimKiemHoaDon frmTKHD = new frmTimKiemHoaDon();
+            frmTKHD.MdiParent = this;
+            frmTKHD.Show();
+        }
     }
 }

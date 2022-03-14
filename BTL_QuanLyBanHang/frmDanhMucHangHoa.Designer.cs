@@ -30,6 +30,7 @@ namespace BTL_QuanLyBanHang
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnTimKiem = new System.Windows.Forms.Button();
             this.btnHienThids = new System.Windows.Forms.Button();
             this.btnDong = new System.Windows.Forms.Button();
             this.btnBoQua = new System.Windows.Forms.Button();
@@ -58,7 +59,6 @@ namespace BTL_QuanLyBanHang
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.dgrHangHoa = new System.Windows.Forms.DataGridView();
-            this.btnTimKiem = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picAnh)).BeginInit();
@@ -80,6 +80,16 @@ namespace BTL_QuanLyBanHang
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(801, 73);
             this.panel1.TabIndex = 0;
+            // 
+            // btnTimKiem
+            // 
+            this.btnTimKiem.Location = new System.Drawing.Point(504, 21);
+            this.btnTimKiem.Name = "btnTimKiem";
+            this.btnTimKiem.Size = new System.Drawing.Size(69, 29);
+            this.btnTimKiem.TabIndex = 25;
+            this.btnTimKiem.Text = "Tìm Kiếm";
+            this.btnTimKiem.UseVisualStyleBackColor = true;
+            this.btnTimKiem.Click += new System.EventHandler(this.btnTimKiem_Click);
             // 
             // btnHienThids
             // 
@@ -353,16 +363,6 @@ namespace BTL_QuanLyBanHang
             this.dgrHangHoa.TabIndex = 2;
             this.dgrHangHoa.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgrHangHoa_CellClick);
             // 
-            // btnTimKiem
-            // 
-            this.btnTimKiem.Location = new System.Drawing.Point(504, 21);
-            this.btnTimKiem.Name = "btnTimKiem";
-            this.btnTimKiem.Size = new System.Drawing.Size(69, 29);
-            this.btnTimKiem.TabIndex = 25;
-            this.btnTimKiem.Text = "Tìm Kiếm";
-            this.btnTimKiem.UseVisualStyleBackColor = true;
-            this.btnTimKiem.Click += new System.EventHandler(this.btnTimKiem_Click);
-            // 
             // frmDanhMucHangHoa
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -372,6 +372,8 @@ namespace BTL_QuanLyBanHang
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Name = "frmDanhMucHangHoa";
+            this.ShowInTaskbar = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Danh mục hàng hóa";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmDanhMucHangHoa_FormClosing);
             this.Load += new System.EventHandler(this.frmDanhMucHangHoa_Load);
